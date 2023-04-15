@@ -27,4 +27,5 @@ urlpatterns = [
     path('Autos/<pk>/delete', AutoDelete.as_view(), name="auto-delete"),
     path('signup/', SignUp.as_view(), name="signup"),
     path('login/', LogIn.as_view(), name="login"),
+    path('logout/', LogOut.as_view(), name="logout"),
 ]

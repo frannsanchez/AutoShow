@@ -5,6 +5,8 @@ from django.views.generic import ListView, CreateView, DeleteView, DetailView, U
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 def index(request):
     return render(request, "Autos/index.html")
 
@@ -24,17 +26,17 @@ class BuscarAuto(ListView):
 class AutoDetail(DetailView):
     model = Auto
     
-class AutoCreate(CreateView):
+class AutoCreate(LoginRequiredMixin, CreateView):
     model = Auto
     success_url = reverse_lazy("auto-list")
     fields = '__all__'
 
-class AutoUpdate(UpdateView):
+class AutoUpdate(LoginRequiredMixin, UpdateView):
     model = Auto
     success_url = reverse_lazy("auto-list")
     fields = '__all__'
 
-class AutoDelete(DeleteView):
+class AutoDelete(LoginRequiredMixin, DeleteView):
     model = Auto
     success_url = reverse_lazy("auto-list")
 
@@ -45,3 +47,6 @@ class SignUp(CreateView):
 
 class LogIn(LoginView):
     pass
+
+class LogOut(LogoutView):
+    template_name = 'registration/logout.html'

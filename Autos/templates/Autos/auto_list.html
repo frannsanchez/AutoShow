@@ -2,12 +2,15 @@
 
 {% block title%}<title>Posts</title>{% endblock %}
 {% block main%}
+<h1>Publicaciones</h1>
 <ul>{% for auto in object_list %}
     <li>
         {{auto}} 
-        <a href="{% url 'auto-detail' auto.id %}">Detalle</a>
-        <a href="{% url 'auto-update' auto.id %}">Modificar</a>
-        <a href="{% url 'auto-delete' auto.id %}">Eliminar</a>
+        <a href="{% url 'auto-detail' auto.id %}">Ver mas</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'auto-update' auto.id %}">Modificar</a>
+            <a href="{% url 'auto-delete' auto.id %}">Eliminar</a>
+        {% endif %}
     </li>
     {% endfor %}
 </ul>
