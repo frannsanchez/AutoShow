@@ -1,0 +1,17 @@
+{% extends 'Autos/index.html' %}
+
+{% block title%}<title>Iniciar Sesion</title>{% endblock %}
+{% block main%}
+<h1>Iniciar Sesion</h1>
+<form method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+    <p class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+    </p>
+    {% endfor  %}
+    <input type=submit value="Iniciar Sesion">
+</form>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'Autos/index.html' %}
+
+{% block title%}<title>Posts</title>{% endblock %}
+{% block main%}
+<ul>{% for auto in object_list %}
+    <li>
+        {{auto}} 
+        <a href="{% url 'auto-detail' auto.id %}">Detalle</a>
+        <a href="{% url 'auto-update' auto.id %}">Modificar</a>
+        <a href="{% url 'auto-delete' auto.id %}">Eliminar</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

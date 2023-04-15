@@ -1,0 +1,10 @@
+{% extends 'Autos/index.html' %}
+
+{% block title%}<title>Eliminar Post</title>{% endblock %}
+{% block main%}
+<form method="POST">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="Borrar">
+</form>
+{% endblock %}
