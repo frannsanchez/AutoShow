@@ -20,7 +20,7 @@ from Autos.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name="index"),
-    path('Autos/list', MostrarAuto.as_view(), name="auto-list"),
+    path('Autos/list/', MostrarAuto.as_view(), name="auto-list"),
     path('Autos/<pk>/detail', AutoDetail.as_view(), name="auto-detail"),
     path('Autos/create', AutoCreate.as_view(), name="auto-create"),
     path('Autos/<pk>/update', AutoUpdate.as_view(), name="auto-update"),

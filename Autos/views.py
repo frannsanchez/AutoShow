@@ -44,4 +44,4 @@ class SignUp(CreateView):
     success_url = reverse_lazy('auto-list')
 
 class LogIn(LoginView):
-    next_page = reverse_lazy('auto-list')
+    pass
