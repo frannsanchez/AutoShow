@@ -55,11 +55,38 @@ class AutoDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def handle_no_permission(self):
         return render(self.request, "Autos/not_found.html")
+    
+class ProfileUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Profile
+    success_url = reverse_lazy("profile-detail")
+    fields = '__all__'
 
+    def test_func(self):
+        user_id = self.request.user.id
+        profile_id = self.kwargs.get('pk')
+        return Profile.objects.filter(user=user_id, id=profile_id,).exists() 
+    
+    def handle_no_permission(self):
+        return render(self.request, "Autos/not_found_user.html")
+
+class ProfileDetail(DetailView):
+    model = Profile
+
+class ProfileCreate(CreateView):
+    model = Profile
+    success_url = reverse_lazy("login")
+    fields = ['imagen', 'nacionalidad', 'instagram']
+    
+
+    def test_func(self):
+        user_id = self.request.user.id
+        profile_id = self.kwargs.get('pk')
+        return Profile.objects.filter(user=user_id, id=profile_id,).exists() 
+    
 class SignUp(CreateView):
     form_class = UserCreationForm
     template_name = 'registration/signup.html'
-    success_url = reverse_lazy('auto-list')
+    success_url = reverse_lazy('profile-create')
 
 class LogIn(LoginView):
     pass

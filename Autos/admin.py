@@ -1,3 +1,5 @@
 from django.contrib import admin
+from Autos.models import Auto, Profile
 
-# Register your models here.
+admin.site.register(Auto)
+admin.site.register(Profile)

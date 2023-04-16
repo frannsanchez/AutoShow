@@ -14,3 +14,8 @@ class Auto(models.Model):
     def __str__(self):
         return f"{self.marca} - {self.modelo} - {self.año}"
 
+class Profile(models.Model):
+    user = models.OneToOneField(to=User, on_delete=models.CASCADE, related_name="profile")
+    imagen = models.ImageField(upload_to="perfiles", null=True, blank=True)
+    nacionalidad = models.CharField(max_length=20)
+    instagram = models.CharField(max_length=50)
