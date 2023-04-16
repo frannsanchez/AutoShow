@@ -3,14 +3,16 @@
 {% block title%}<title>Posts</title>{% endblock %}
 {% block main%}
 <h1>Publicaciones</h1>
+<br>
 <ul>{% for auto in object_list %}
     <li>
         {{auto}} 
         <a href="{% url 'auto-detail' auto.id %}">Ver mas</a>
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and auto.dueño == user %}
             <a href="{% url 'auto-update' auto.id %}">Modificar</a>
             <a href="{% url 'auto-delete' auto.id %}">Eliminar</a>
         {% endif %}
+        <br>
     </li>
     {% endfor %}
 </ul>

@@ -5,7 +5,7 @@ from django.views.generic import ListView, CreateView, DeleteView, DetailView, U
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 def index(request):
     return render(request, "Autos/index.html")
@@ -31,14 +31,30 @@ class AutoCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("auto-list")
     fields = '__all__'
 
-class AutoUpdate(LoginRequiredMixin, UpdateView):
+class AutoUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Auto
     success_url = reverse_lazy("auto-list")
     fields = '__all__'
 
-class AutoDelete(LoginRequiredMixin, DeleteView):
+    def test_func(self):
+        user_id = self.request.user.id
+        post_id = self.kwargs.get('pk')
+        return Auto.objects.filter(dueño=user_id, id=post_id,).exists() 
+    
+    def handle_no_permission(self):
+        return render(self.request, "Autos/not_found.html")
+
+class AutoDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Auto
     success_url = reverse_lazy("auto-list")
+
+    def test_func(self):
+        user_id = self.request.user.id
+        post_id = self.kwargs.get('pk')
+        return Auto.objects.filter(dueño=user_id, id=post_id,).exists()
+
+    def handle_no_permission(self):
+        return render(self.request, "Autos/not_found.html")
 
 class SignUp(CreateView):
     form_class = UserCreationForm

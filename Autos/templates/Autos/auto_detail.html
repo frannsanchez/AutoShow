@@ -2,5 +2,22 @@
 
 {% block title%}<title>Posts</title>{% endblock %}
 {% block main%}
-{{object}}
+<br>
+<h1>{{object.marca}} - {{object.modelo}}</h1>
+    <br>
+    <img src="{{ object.imagen.url }}" width="300px" height="100%">
+    <br>
+    Fabricante: {{object.marca}}
+    <br>
+    Modelo: {{object.modelo}}
+    <br>
+    Año de fabricacion: {{object.año}}
+    <br>
+    Color: {{object.color}}
+    <br>
+    Descripcion: {{object.descripcion}}
+    <br>
+    Publicado: {{object.fecha_publicacion}}
+    <br>
+    Dueño: {{object.dueño}}
 {% endblock %}
