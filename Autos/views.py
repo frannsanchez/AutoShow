@@ -58,7 +58,7 @@ class AutoDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     
 class ProfileUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Profile
-    success_url = reverse_lazy("profile-detail")
+    success_url = reverse_lazy("index")
     fields = '__all__'
 
     def test_func(self):
@@ -75,7 +75,7 @@ class ProfileDetail(DetailView):
 class ProfileCreate(CreateView):
     model = Profile
     success_url = reverse_lazy("login")
-    fields = ['imagen', 'nacionalidad', 'instagram']
+    fields = '__all__'
     
 
     def test_func(self):
