@@ -16,15 +16,16 @@ def index(request):
 class MostrarAuto(ListView):
     model = Auto
 
-class BuscarAuto(ListView):
-    model = Auto
-    context_object_name = "autos"
+def BuscarAuto(request):
+    criterio = request.GET.get("buscar")
+    variable = request.GET.get("variable")
 
-    def get_queryset(self):
-        f = BuscarAutoForm(self.request.GET)
-        if f.is_valid():
-            return Auto.objects.filter(marca__icontains=f.data["criterio_auto"]).all
-        return Auto.objects.none()
+    if criterio:
+        autos = Auto.objects.filter(variable__icontains = criterio).all()
+        return render(request, "Auto/search.html", {"autos":autos})
+    return render(request, "Auto/search.html")
+
+
     
 class AutoDetail(DetailView):
     model = Auto

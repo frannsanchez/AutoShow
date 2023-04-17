@@ -4,7 +4,14 @@
 {% block main%}
 <h1>Publicaciones</h1>
 <br>
-<ul>{% for auto in object_list %}
+<h1>Busca Publicaciones:</h1>   
+        <form>
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type=submit value="Buscar">
+        </form>
+    
+    <ul>{% for auto in object_list %}
     <li>
         {{auto}} 
         <a href="{% url 'auto-detail' auto.id %}">Ver mas</a>

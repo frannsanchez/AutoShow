@@ -67,6 +67,9 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'auto-create' %}">Nuevo Post</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'auto-search' %}">Buscar</a>
+          </li>
           {% if user.is_authenticated and user.profile %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'profile-detail' user.profile.id %}" tabindex="-1" aria-disabled="true">{{ user.username }}</a>

@@ -1,0 +1,36 @@
+{% extends 'Autos/index.html' %}
+
+{% block title%}<title>Buscar Post</title>{% endblock %}
+{% block main%}
+
+<h4>Buscar Publicacion</h4>
+        <form>
+            {% csrf_token %}
+            <label for="variable">Criterio:</label>
+            <select name="variable" id="variable">
+                <option value="marca">Marca</option>
+                <option value="modelo">Modelo</option>
+                <option value="año">Año</option>
+                <option value="color">Color</option>
+            </select>
+            <br>
+            <label for="criterio">Buscar:</label>
+            <input type="text" name="criterio" id="criterio">
+            <br>
+            <input type="submit" value="Editar">
+        </form>
+        {% if autos %}
+        <ul>{% for auto in object_list %}
+            <li>
+                {{auto}} 
+                <a href="{% url 'auto-detail' auto.id %}">Ver mas</a>
+                {% if user.is_authenticated and auto.dueño == user %}
+                    <a href="{% url 'auto-update' auto.id %}">Modificar</a>
+                    <a href="{% url 'auto-delete' auto.id %}">Eliminar</a>
+                {% endif %}
+                <br>
+            </li>
+            {% endfor %}
+        {% endif %}
+        </ul>
+{% endblock %}
