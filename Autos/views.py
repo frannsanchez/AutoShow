@@ -8,7 +8,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 def index(request):
-    return render(request, "Autos/index.html")
+    context = {
+        'publicaciones': Auto.objects.all()
+    }
+    return render(request, "Autos/index.html", context)
 
 class MostrarAuto(ListView):
     model = Auto
@@ -42,7 +45,7 @@ class AutoUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return Auto.objects.filter(dueño=user_id, id=post_id,).exists() 
     
     def handle_no_permission(self):
-        return render(self.request, "Autos/not_found.html")
+        return render(self.request, "Autos/not_found_post.html")
 
 class AutoDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Auto
@@ -54,7 +57,7 @@ class AutoDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return Auto.objects.filter(dueño=user_id, id=post_id,).exists()
 
     def handle_no_permission(self):
-        return render(self.request, "Autos/not_found.html")
+        return render(self.request, "Autos/not_found_post.html")
     
 class ProfileUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Profile
@@ -76,12 +79,6 @@ class ProfileCreate(CreateView):
     model = Profile
     success_url = reverse_lazy("login")
     fields = '__all__'
-    
-
-    def test_func(self):
-        user_id = self.request.user.id
-        profile_id = self.kwargs.get('pk')
-        return Profile.objects.filter(user=user_id, id=profile_id,).exists() 
     
 class SignUp(CreateView):
     form_class = UserCreationForm
