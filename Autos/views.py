@@ -79,7 +79,7 @@ class MensajeCreate(CreateView):
     fields = '__all__'
     success_url = reverse_lazy('mensaje-list')
 
-class MostrarMensaje(ListView):
+class MostrarMensaje( ListView):
     model = Mensaje
 
 class MensajeDetail(DetailView):
