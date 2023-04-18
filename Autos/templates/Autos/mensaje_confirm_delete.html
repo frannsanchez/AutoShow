@@ -3,8 +3,9 @@
 {% block title%}<title>Eliminar Mensaje</title>{% endblock %}
 {% block main%}
 <form method="POST">
+<h1>CONFIRMAR BORRAR MENSAJE</h1>
     {% csrf_token %}
     {{form}}
-    <input type="submit" value="Borrar">
+    <input type="submit" value="CONFIRMAR">
 </form>
 {% endblock %}

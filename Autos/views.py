@@ -39,12 +39,20 @@ class AutoDetail(DetailView):
 class AutoCreate(LoginRequiredMixin, CreateView):
     model = Auto
     success_url = reverse_lazy("auto-list")
-    fields = '__all__'
+    fields = ['marca', 'modelo', 'año', 'color', 'descripcion', 'imagen']
+
+    def form_valid(self, form):
+        form.instance.dueño = self.request.user
+        return super().form_valid(form)
 
 class AutoUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Auto
     success_url = reverse_lazy("auto-list")
-    fields = '__all__'
+    fields = ['marca', 'modelo', 'año', 'color', 'descripcion', 'imagen']
+
+    def form_valid(self, form):
+        form.instance.dueño = self.request.user
+        return super().form_valid(form)
 
     def test_func(self):
         user_id = self.request.user.id
@@ -83,15 +91,15 @@ class MensajeDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         user_id = self.request.user.id
-        post_id = self.kwargs.get('pk')
-        return Mensaje.objects.filter(destinatario=user_id, id=post_id,).exists()
+        mensaje_id = self.kwargs.get('pk')
+        return Mensaje.objects.filter(destinatario=user_id, id=mensaje_id,).exists()
 
     def handle_no_permission(self):
         return render(self.request, "Autos/not_found_mensaje.html")
 
 class ProfileUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Profile
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy('index')
     fields = '__all__'
 
     def test_func(self):
@@ -107,13 +115,18 @@ class ProfileDetail(DetailView):
 
 class ProfileCreate(CreateView):
     model = Profile
-    success_url = reverse_lazy("login")
-    fields = '__all__'
+    success_url = reverse_lazy("index")
+    fields = ['imagen', 'nacionalidad', 'instagram']
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
     
 class SignUp(CreateView):
     form_class = UserCreationForm
     template_name = 'registration/signup.html'
-    success_url = reverse_lazy('profile-create')
+    success_url = reverse_lazy('login')
 
 class LogIn(LoginView):
     pass
