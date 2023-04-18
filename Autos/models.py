@@ -19,3 +19,8 @@ class Profile(models.Model):
     imagen = models.ImageField(upload_to="perfiles", null=True, blank=True)
     nacionalidad = models.CharField(max_length=20)
     instagram = models.CharField(max_length=50)
+
+class Mensaje(models.Model):
+    mensaje = models.TextField(max_length=1000)
+    email = models.EmailField()
+    destinatario = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="destinatario")

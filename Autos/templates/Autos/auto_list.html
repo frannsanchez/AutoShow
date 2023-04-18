@@ -3,14 +3,8 @@
 {% block title%}<title>Posts</title>{% endblock %}
 {% block main%}
 <h1>Publicaciones</h1>
-<br>
-<h1>Busca Publicaciones:</h1>   
-        <form>
-            {% csrf_token %}
-            {{form.as_p}}
-            <input type=submit value="Buscar">
-        </form>
-    
+<a href="{% url 'auto-create' %}">Nueva Publicacion</a>
+    {% if object_list %}
     <ul>{% for auto in object_list %}
     <li>
         {{auto}} 
@@ -22,5 +16,8 @@
         <br>
     </li>
     {% endfor %}
-</ul>
+    </ul>
+    {% else %}
+    <h2>No hay Publicaciones</h2>
+    {% endif %}
 {% endblock %}

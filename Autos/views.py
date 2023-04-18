@@ -3,9 +3,13 @@ from Autos.models import *
 from Autos.forms import *
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
 from django.urls import reverse_lazy
+from django.db.models import Q
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
+def about(request):
+    return render(request, "Autos/about.html")
 
 def index(request):
     context = {
@@ -17,16 +21,18 @@ class MostrarAuto(ListView):
     model = Auto
 
 def BuscarAuto(request):
-    criterio = request.GET.get("buscar")
-    variable = request.GET.get("variable")
+    busqueda = request.GET.get("buscar")
+    autos = Auto.objects.all()
 
-    if criterio:
-        autos = Auto.objects.filter(variable__icontains = criterio).all()
-        return render(request, "Auto/search.html", {"autos":autos})
-    return render(request, "Auto/search.html")
-
-
-    
+    if busqueda:
+        autos = Auto.objects.filter(
+            Q(marca__icontains= busqueda) |
+            Q(modelo__icontains= busqueda) |
+            Q(año__icontains= busqueda) |
+            Q(color__icontains= busqueda)
+        ).all()
+    return render(request, 'Autos/search.html', {'autos':autos})
+        
 class AutoDetail(DetailView):
     model = Auto
     
@@ -59,7 +65,30 @@ class AutoDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def handle_no_permission(self):
         return render(self.request, "Autos/not_found_post.html")
-    
+
+class MensajeCreate(CreateView):
+    model = Mensaje
+    fields = '__all__'
+    success_url = reverse_lazy('mensaje-list')
+
+class MostrarMensaje(ListView):
+    model = Mensaje
+
+class MensajeDetail(DetailView):
+    model = Mensaje
+
+class MensajeDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Mensaje
+    success_url = reverse_lazy("mensaje-list")
+
+    def test_func(self):
+        user_id = self.request.user.id
+        post_id = self.kwargs.get('pk')
+        return Mensaje.objects.filter(destinatario=user_id, id=post_id,).exists()
+
+    def handle_no_permission(self):
+        return render(self.request, "Autos/not_found_mensaje.html")
+
 class ProfileUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Profile
     success_url = reverse_lazy("index")

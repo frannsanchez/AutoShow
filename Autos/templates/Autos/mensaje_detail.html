@@ -1,0 +1,11 @@
+{% extends 'Autos/index.html' %}
+
+{% block title%}<title>Posts</title>{% endblock %}
+{% block main%}
+<br>
+<h1>{{object.destinatario}}</h1>
+    <br>
+    Mensaje: {{object.mensaje}}
+    <br>
+    Email: {{object.email}}
+{% endblock %}

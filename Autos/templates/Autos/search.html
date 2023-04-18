@@ -4,23 +4,13 @@
 {% block main%}
 
 <h4>Buscar Publicacion</h4>
-        <form>
-            {% csrf_token %}
-            <label for="variable">Criterio:</label>
-            <select name="variable" id="variable">
-                <option value="marca">Marca</option>
-                <option value="modelo">Modelo</option>
-                <option value="año">Año</option>
-                <option value="color">Color</option>
-            </select>
-            <br>
-            <label for="criterio">Buscar:</label>
-            <input type="text" name="criterio" id="criterio">
-            <br>
-            <input type="submit" value="Editar">
-        </form>
+     <form action="{% url 'auto-search' %}" method="GET">  
+        <label name="buscar">Buscar:</label>
+        <input type="text" name="buscar">
+        <input type="submit" value="Buscar">
+    </form> 
         {% if autos %}
-        <ul>{% for auto in object_list %}
+        <ul>{% for auto in autos %}
             <li>
                 {{auto}} 
                 <a href="{% url 'auto-detail' auto.id %}">Ver mas</a>

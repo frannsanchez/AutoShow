@@ -1,0 +1,10 @@
+{% extends 'Autos/index.html' %}
+
+{% block title%}<title>Crear Post</title>{% endblock %}
+{% block main%}
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type=submit value="enviar">
+</form>
+{% endblock %}

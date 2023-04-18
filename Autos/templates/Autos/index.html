@@ -65,9 +65,6 @@
             <a class="nav-link active" aria-current="page" href="{% url 'auto-list' %}">Posts</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'auto-create' %}">Nuevo Post</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="{% url 'auto-search' %}">Buscar</a>
           </li>
           {% if user.is_authenticated and user.profile %}
@@ -85,6 +82,8 @@
             <a class="nav-link" href="{% url 'login' %}" tabindex="-1" aria-disabled="true">Iniciar Sesion</a>
           </li>
           {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'mensaje-list' %}" tabindex="-1" aria-disabled="true">Mensajes</a>
         </ul>
         </form>
       </div>
@@ -162,7 +161,7 @@
 
   <!-- FOOTER -->
   <footer class="container">
-    <p>© 2023 Franco Sanchez - Comision 40425 · <a href="https://getbootstrap.com/docs/5.0/examples/carousel/#">About</a></p>
+    <p>© 2023 Franco Sanchez - Comision 40425 · <a href="{% url 'about' %}">About</a></p>
   </footer>
 </main>
 

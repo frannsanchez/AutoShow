@@ -1,0 +1,22 @@
+{% extends 'Autos/index.html' %}
+
+{% block title%}<title>Mensajes</title>{% endblock %}
+{% block main%}
+<h1>Mensajes</h1>
+    {% if object_list %}
+    <ul>{% for mensaje in object_list %}
+        {% if user.is_authenticated and mensaje.destinatario == user %}
+        <li>
+        {{mensaje.email}} 
+        <a href="{% url 'mensaje-detail' mensaje.id %}">Ver mas</a>
+        <a href="{% url 'mensaje-delete' mensaje.id %}">Eliminar</a>
+        {% endif %}
+        <br>
+    </li>
+    {% endfor %}
+    </ul>
+    {% else %}
+    <h2>No hay Mensajes</h2>
+    {% endif %}
+    <a href="{% url 'mensaje-create' %}">Enviar Mensaje</a>
+{% endblock %}
